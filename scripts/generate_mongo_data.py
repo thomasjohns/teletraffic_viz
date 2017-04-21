@@ -35,13 +35,13 @@ DEVICE_MAP = [
 
 
 def get_devices():
-    d = {'devices': []}
+    d = {'device': []}
     for device_entry in DEVICE_MAP:
         device_type = device_entry['type']
         num_devices = device_entry['number']
         for i in range(1, num_devices + 1):
             name = device_type + '_' + str(i)  # e.g. router_3
-            d['devices'].append({'name': name, 'type': device_type})
+            d['device'].append({'name': name, 'type': device_type})
     return d
 
 
@@ -49,8 +49,8 @@ def get_datetimes():
     start_dt = datetime.datetime(year=START_YEAR, month=START_MONTH, day=1,
                                  hour=0, second=0, minute=0)
     end_dt = start_dt + datetime.timedelta(days=30*NUM_MONTHS)
-    return [d.to_datetime() for d in pd.date_range(start=start_dt, end=end_dt,
-                                                   freq='H')]
+    return [d.to_pydatetime() for d in pd.date_range(start=start_dt, end=end_dt,
+                                                     freq='H')]
 
 
 def get_uptime_ts(n):
@@ -109,12 +109,12 @@ def get_ts(devices):
     ts = []
     datetimes = get_datetimes()
     n = len(datetimes)
-    for device in devices['devices']:
+    for device in devices['device']:
         uptime = get_uptime_ts(n)
         ts.append({
             'name': device['name'],
             'type': device['type'],
-            'datetimes': datetimes,
+            'datetime': datetimes,
             'cpu': get_cpu_ts(n, uptime, datetimes),
             'memory': get_mem_ts(n, uptime, datetimes),
             'disk': get_disk_ts(n, uptime),
@@ -124,8 +124,9 @@ def get_ts(devices):
 
 
 def main():
-    metrics = {'metrics': ['cpu', 'memory', 'disk_usage', 'uptime']}
     devices = get_devices()
+    inventory = {'metric': ['cpu', 'memory', 'disk_usage', 'uptime'],
+                 'device': devices['device']}
     ts = get_ts(devices)
 
     # import pprint
@@ -134,10 +135,12 @@ def main():
     # pprint.pprint(ts, indent=2)
 
     db = MONGO_CLIENT['reporting']
-    teletraffic_collection = db['teletraffic']
-    teletraffic_collection.insert_one(metrics)
-    teletraffic_collection.insert_one(devices)
-    teletraffic_collection.insert_many(ts)
+
+    inventory_collection = db['inventory']
+    inventory_collection.insert_one(inventory)
+
+    ts_collection = db['timeSeries']
+    ts_collection.insert_many(ts)
 
 
 if __name__ == '__main__':
