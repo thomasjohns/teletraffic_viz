@@ -3,11 +3,14 @@ const path = require('path')
 const logger = require('morgan')
 const cookieParser = require('cookie-parser')
 const bodyParser = require('body-parser')
+const mongoose = require('mongoose')
 
 const home = require('./routes/home')
 const graph = require('./routes/graph')
 const table = require('./routes/table')
 const download = require('./routes/download')
+
+mongoose.connect('mongodb://localhost/reporting')
 
 const app = express()
 
@@ -16,11 +19,12 @@ app.set('views', path.join(__dirname, 'views'))
 app.set('view engine', 'jsx')
 app.engine('jsx', require('express-react-views').createEngine())
 
+app.set('json spaces', 4)
 app.use(logger('dev'))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(cookieParser())
-app.use(express.static(path.join(__dirname, 'public')))
+// app.use(express.static(path.join(__dirname, 'public')))
 
 app.use('/', home)
 app.use('/graph', graph)
