@@ -7,8 +7,8 @@ const mongoose = require('mongoose')
 
 const home = require('./routes/home')
 const graph = require('./routes/graph')
-const table = require('./routes/table')
-const download = require('./routes/download')
+// const table = require('./routes/table')
+// const download = require('./routes/download')
 
 mongoose.connect('mongodb://localhost/reporting')
 
@@ -28,8 +28,8 @@ app.use(cookieParser())
 
 app.use('/', home)
 app.use('/graph', graph)
-app.use('/table', table)
-app.use('/download', download)
+// app.use('/table', table)
+// app.use('/download', download)
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
