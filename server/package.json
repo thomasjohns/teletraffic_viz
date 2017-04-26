@@ -1,0 +1,20 @@
+{
+  "name": "teletraffic_viz_server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "Thomas Johnson",
+  "license": "ISC",
+  "dependencies": {
+    "bluebird": "^3.5.0",
+    "express": "^4.15.2",
+    "mongoose": "^4.9.6"
+  }
+}

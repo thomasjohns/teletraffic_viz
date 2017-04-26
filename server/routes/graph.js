@@ -11,7 +11,7 @@ router.get('/', (req, res) => {
 })
 
 router.get('/:device', (req, res) => {
-  return timeseriesAPI.getAllMetricsByDevice(device).then(metrics => {
+  return timeseriesAPI.getAllMetricsByDevice(req.query.device).then(metrics => {
     return res.status(200).json(metrics)
   })
 })
