@@ -1,17 +1,17 @@
 const express = require('express')
 const router = express.Router()
 
-const inventoryAPI = require('../models/inventoryAPI')
-const timeseriesAPI = require('../models/timeseriesAPI')
+const Inventory = require('../models/inventory')
+const TimeSeries = require('../models/timeseries')
 
 router.get('/', (req, res) => {
-  return inventoryAPI.getAllDeviceNames().then(devices => {
+  return Inventory.getAllDeviceNames().then(devices => {
     return res.status(200).json(devices)
   })
 })
 
 router.get('/:device', (req, res) => {
-  return timeseriesAPI.getAllMetricsByDevice(req.query.device).then(metrics => {
+  return TimeSeries.getAllMetricsByDevice(req.query.device).then(metrics => {
     return res.status(200).json(metrics)
   })
 })
