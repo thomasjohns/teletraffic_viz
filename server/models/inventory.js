@@ -12,7 +12,7 @@ class Inventory {
   static getAllDeviceNames () {
     let result = this.model.findOne(
       {},
-      { device: 10 },
+      { device: 1 },
       { name: 1 }
     )
     return Promise.resolve(result)
