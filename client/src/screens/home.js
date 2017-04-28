@@ -16,7 +16,7 @@ const style = {
     position: 'relative',
     left: '10%',
     color: '#121F1F',
-    fontSize: '20px',
+    fontSize: '20px'
   }
 }
 
