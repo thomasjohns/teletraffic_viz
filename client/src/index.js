@@ -4,6 +4,9 @@ import { BrowserRouter as Router, Route } from 'react-router-dom'
 import Home from './screens/home'
 import Graph from './screens/graph'
 import Table from './screens/table'
+import Excel from './screens/excel'
+import Upload from './screens/upload'
+import Download from './screens/download'
 
 ReactDOM.render(
   <Router>
@@ -11,6 +14,9 @@ ReactDOM.render(
       <Route exact path='/' component={Home} />
       <Route path='/graph' component={Graph} />
       <Route path='/table' component={Table} />
+      <Route path='/excel' component={Excel} />
+      <Route path='/upload' component={Upload} />
+      <Route path='/download' component={Download} />
     </div>
   </Router>,
   document.getElementById('root')
