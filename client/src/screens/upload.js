@@ -5,7 +5,7 @@ class Upload extends Component {
   render () {
     return (
       <div className='Upload'>
-        <Header name={'Upload'} />
+        <Header screenName={'Upload'} />
       </div>
     )
   }

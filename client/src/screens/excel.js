@@ -5,7 +5,7 @@ class Excel extends Component {
   render () {
     return (
       <div className='Excel'>
-        <Header name={'Excel'} />
+        <Header screenName={'Excel'} />
       </div>
     )
   }

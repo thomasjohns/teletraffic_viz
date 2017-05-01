@@ -5,7 +5,7 @@ class Download extends Component {
   render () {
     return (
       <div className='Download'>
-        <Header name={'Download'} />
+        <Header screenName={'Download'} />
       </div>
     )
   }
