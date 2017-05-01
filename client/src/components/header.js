@@ -37,10 +37,10 @@ const style = {
     textDecoration: 'none',
     ':hover': {
       color: '#00868B'
-    },
-    ':active': {
-      backgroundColor: 'red'
     }
+  },
+  linkTextActive: {
+    color: '#AD3E3E'
   }
 }
 
@@ -54,38 +54,39 @@ class Header extends Component {
         <div style={style.navLinks}>
 
           <NavLink
-            activeStyle={style.linkText}
-            activeClassName='active'
+            style={style.linkText}
+            activeStyle={style.linkTextActive}
+            exact
             to='/'
           >Home</NavLink>
 
           <NavLink
-            activeStyle={style.linkText}
-            activeClassName='active'
+            style={style.linkText}
+            activeStyle={style.linkTextActive}
             to='/graph'
           >Graph</NavLink>
 
           <NavLink
-            activeStyle={style.linkText}
-            activeClassName='active'
+            style={style.linkText}
+            activeStyle={style.linkTextActive}
             to='/table'
           >Table</NavLink>
 
           <NavLink
-            activeStyle={style.linkText}
-            activeClassName='active'
+            style={style.linkText}
+            activeStyle={style.linkTextActive}
             to='/excel'
           >Excel</NavLink>
 
           <NavLink
-            activeStyle={style.linkText}
-            activeClassName='active'
+            style={style.linkText}
+            activeStyle={style.linkTextActive}
             to='/upload'
           >Upload</NavLink>
 
           <NavLink
-            activeStyle={style.linkText}
-            activeClassName='active'
+            style={style.linkText}
+            activeStyle={style.linkTextActive}
             to='/download'
           >Download</NavLink>
         </div>

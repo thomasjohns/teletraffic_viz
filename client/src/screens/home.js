@@ -8,7 +8,7 @@ const Link = Radium(ReactRouterLink)
 const style = {
   screenList: {
     fontFamily: 'monospace',
-    color: 'blue',
+    color: 'gray',
     position: 'absolute',
     fontSize: '40px',
     top: '16%',
