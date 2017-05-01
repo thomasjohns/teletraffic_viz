@@ -4,12 +4,13 @@ import ReactMenuAim from 'react-menu-aim'
 
 const style = {
   base: {
-    background: '#A8A8A8',
+    background: '#DBDBDB',
     width: '20%',
-    height: '90%',
+    height: '87%',
     position: 'absolute',
-    marginTop: '0%',
-    top: '10%',
+    margin: 0,
+    padding: 0,
+    top: '13%',
     left: '0%'
   }
 }

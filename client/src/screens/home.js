@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
+import { Link as ReactRouterLink } from 'react-router-dom'
 import Radium from 'radium'
 import Header from '../components/header'
+
+const Link = Radium(ReactRouterLink)
 
 const style = {
   screenList: {
@@ -9,14 +11,18 @@ const style = {
     color: 'blue',
     position: 'absolute',
     fontSize: '40px',
-    top: '12%',
-    left: '40%'
+    top: '16%',
+    left: '37%',
+    listStyleType: 'none'
   },
   screenListDescription: {
     position: 'relative',
-    left: '10%',
+    left: '7%',
     color: '#121F1F',
     fontSize: '20px'
+  },
+  linkText: {
+    textDecoration: 'none'
   }
 }
 
@@ -26,23 +32,23 @@ class Home extends Component {
       <div className='Home'>
         <Header screenName={'Home'} />
         <ul style={style.screenList}>
-          <li><Link to='/graph'>Graph</Link></li>
+          <li><Link style={style.linkText} to='/graph'>Graph</Link></li>
           <p style={style.screenListDescription}>
           View graphs of metrics.
           </p>
-          <li><Link to='/table'>Table</Link></li>
+          <li><Link style={style.linkText} to='/table'>Table</Link></li>
           <p style={style.screenListDescription}>
           View table of metric data.
           </p>
-          <li><Link to='/excel'>Excel</Link></li>
+          <li><Link style={style.linkText} to='/excel'>Excel</Link></li>
           <p style={style.screenListDescription}>
           Generate and download excel report.
           </p>
-          <li><Link to='/upload'>Upload</Link></li>
+          <li><Link style={style.linkText} to='/upload'>Upload</Link></li>
           <p style={style.screenListDescription}>
           Upload metric data.
           </p>
-          <li><Link to='/download'>Download</Link></li>
+          <li><Link style={style.linkText} to='/download'>Download</Link></li>
           <p style={style.screenListDescription}>
           Download metric data.
           </p>

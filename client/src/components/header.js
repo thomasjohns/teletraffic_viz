@@ -1,14 +1,17 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
+import { NavLink as ReactRouterNavLink } from 'react-router-dom'
 import Radium from 'radium'
+
+const NavLink = Radium(ReactRouterNavLink)
 
 const style = {
   base: {
-    background: '#DBDBDB',
+    background: '#232323',
     width: '100%',
-    height: '10%',
+    height: '13%',
     position: 'absolute',
-    marginTop: '0%',
+    margin: 0,
+    padding: 0,
     top: '0%',
     left: '0%'
   },
@@ -22,16 +25,21 @@ const style = {
   },
   navLinks: {
     position: 'absolute',
-    right: '15%',
+    right: '25%',
     top: '30%'
   },
   linkText: {
     fontFamily: 'monospace',
     fontSize: '25px',
-    paddingRight: '10%',
+    paddingLeft: '5%',
+    paddingRight: '5%',
     color: '#EAE0C8',
+    textDecoration: 'none',
     ':hover': {
       color: '#00868B'
+    },
+    ':active': {
+      backgroundColor: 'red'
     }
   }
 }
@@ -44,12 +52,42 @@ class Header extends Component {
           Data Viewer <i>{this.props.screenName}</i>
         </div>
         <div style={style.navLinks}>
-          <Link style={style.linkText} to='/'>Home</Link>
-          <Link style={style.linkText} to='/graph'>Graph</Link>
-          <Link style={style.linkText} to='/table'>Table</Link>
-          <Link style={style.linkText} to='/excel'>Excel</Link>
-          <Link style={style.linkText} to='/upload'>Upload</Link>
-          <Link style={style.linkText} to='/download'>Download</Link>
+
+          <NavLink
+            activeStyle={style.linkText}
+            activeClassName='active'
+            to='/'
+          >Home</NavLink>
+
+          <NavLink
+            activeStyle={style.linkText}
+            activeClassName='active'
+            to='/graph'
+          >Graph</NavLink>
+
+          <NavLink
+            activeStyle={style.linkText}
+            activeClassName='active'
+            to='/table'
+          >Table</NavLink>
+
+          <NavLink
+            activeStyle={style.linkText}
+            activeClassName='active'
+            to='/excel'
+          >Excel</NavLink>
+
+          <NavLink
+            activeStyle={style.linkText}
+            activeClassName='active'
+            to='/upload'
+          >Upload</NavLink>
+
+          <NavLink
+            activeStyle={style.linkText}
+            activeClassName='active'
+            to='/download'
+          >Download</NavLink>
         </div>
       </h1>
     )
