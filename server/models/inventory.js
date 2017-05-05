@@ -1,16 +1,25 @@
 const mongoose = require('mongoose')
 const Promise = require('bluebird')
 
-const Schema = mongoose.Schema
+const { Model, Schema } = mongoose
 
 const inventorySchema = new Schema({
   metric: [String],
-  device: { type: String, name: String }
+  device: [{ type: String, name: String }]
 })
 
-class Inventory {
+class Inventory extends Model {
   static getAllDeviceNames () {
-    let result = this.model.findOne(
+    let result = this.findOne(
+      {},
+      { device: 1 },
+      { name: 1 }
+    )
+    return Promise.resolve(result)
+  }
+
+  static getDeviceMenuTypesAndNames () {
+    let result = this.findOne(
       {},
       { device: 1 },
       { name: 1 }

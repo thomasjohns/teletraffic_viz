@@ -1,21 +1,25 @@
 const mongoose = require('mongoose')
 const Promise = require('bluebird')
 
-const Schema = mongoose.Schema
+const { Model, Schema } = mongoose
 
 const timeSeriesSchema = new Schema({
   name: String,
   type: String,
-  datetime: [Number],
-  cpu: [Number],
-  memory: [Number],
-  disk: [Number],
-  uptime: [Number]
+  ts: [
+    {
+      dt: Date,
+      memory: Number,
+      disk: Number,
+      cpu: Number,
+      uptime: Number
+    }
+  ]
 })
 
-class TimeSeries {
+class TimeSeries extends Model {
   static getAllMetricsByDevice (device) {
-    let result = this.model.findOne({ 'name': device })
+    let result = this.findOne({ 'name': device }, { 'ts': 1 })
     if (!result) {
       return Promise.reject(
         Object.assign(new Error('Device not found'), {
