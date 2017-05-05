@@ -13,7 +13,7 @@ from pymongo import MongoClient
 MONGO_CLIENT = MongoClient(connect=False)
 START_YEAR = 2017
 START_MONTH = 4  # April
-NUM_MONTHS = 2
+NUM_MONTHS = 1
 DEVICE_MAP = [
     {
         'type': 'router',
@@ -110,15 +110,22 @@ def get_ts(devices):
     datetimes = get_datetimes()
     n = len(datetimes)
     for device in devices['device']:
-        uptime = get_uptime_ts(n)
+        uptimes = get_uptime_ts(n)
+        cpus = get_cpu_ts(n, uptimes, datetimes)
+        memories = get_mem_ts(n, uptimes, datetimes)
+        disks = get_disk_ts(n, uptimes)
         ts.append({
             'name': device['name'],
             'type': device['type'],
-            'datetime': datetimes,
-            'cpu': get_cpu_ts(n, uptime, datetimes),
-            'memory': get_mem_ts(n, uptime, datetimes),
-            'disk': get_disk_ts(n, uptime),
-            'uptime': uptime
+            'ts': [
+                {
+                    'dt': datetimes[i],
+                    'cpu': cpus[i],
+                    'memory': memories[i],
+                    'disk': disks[i],
+                    'uptime': uptimes[i]
+                }
+            for i in range(len(datetimes))]
         })
     return ts
 
