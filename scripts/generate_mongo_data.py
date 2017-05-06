@@ -45,6 +45,15 @@ def get_devices():
     return d
 
 
+def get_device_menu(devices):
+    type_names = devices['device']
+    device_menu = []
+    for d in type_names:
+        if d['type'] not in any([i for i in device_menu]):
+            device_menu
+
+
+
 def get_datetimes():
     start_dt = datetime.datetime(year=START_YEAR, month=START_MONTH, day=1,
                                  hour=0, second=0, minute=0)
@@ -133,7 +142,8 @@ def get_ts(devices):
 def main():
     devices = get_devices()
     inventory = {'metric': ['cpu', 'memory', 'disk_usage', 'uptime'],
-                 'device': devices['device']}
+                 'device': devices['device'],
+                 'deviceMenu': get_device_menu(devices)}
     ts = get_ts(devices)
 
     # import pprint
@@ -141,13 +151,13 @@ def main():
     # pprint.pprint(devices, indent=2)
     # pprint.pprint(ts, indent=2)
 
-    db = MONGO_CLIENT['reporting']
-
-    inventory_collection = db['inventory']
-    inventory_collection.insert_one(inventory)
-
-    ts_collection = db['timeSeries']
-    ts_collection.insert_many(ts)
+    # db = MONGO_CLIENT['reporting']
+    #
+    # inventory_collection = db['inventory']
+    # inventory_collection.insert_one(inventory)
+    #
+    # ts_collection = db['timeSeries']
+    # ts_collection.insert_many(ts)
 
 
 if __name__ == '__main__':
