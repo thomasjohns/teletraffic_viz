@@ -13,7 +13,7 @@ from pymongo import MongoClient
 MONGO_CLIENT = MongoClient(connect=False)
 START_YEAR = 2017
 START_MONTH = 4  # April
-NUM_MONTHS = 1
+NUM_MONTHS = .5
 DEVICE_MAP = [
     {
         'type': 'router',
@@ -25,11 +25,11 @@ DEVICE_MAP = [
     },
     {
         'type': 'gateway',
-        'number': 5
+        'number': 2
     },
     {
         'type': 'call_server',
-        'number': 15
+        'number': 10
     }
 ]
 
@@ -45,12 +45,28 @@ def get_devices():
     return d
 
 
+def _index_of_map_list_containing_type_name(list_of_maps, type_name):
+    for i, m in enumerate(list_of_maps):
+        if m['name'] == type_name:
+            return i
+
+
 def get_device_menu(devices):
     type_names = devices['device']
     device_menu = []
     for d in type_names:
-        if d['type'] not in any([i for i in device_menu]):
-            device_menu
+        device_type = d['type']
+        if device_type not in [i['name'] for i in device_menu]:
+            new_type_map = {
+                'name': device_type,
+                'subMenu': [d['name']]
+            }
+            device_menu.append(new_type_map)
+        else:
+            type_index = _index_of_map_list_containing_type_name(device_menu,
+                                                                 device_type)
+            device_menu[type_index]['subMenu'].append(d['name'])
+    return device_menu
 
 
 
@@ -151,13 +167,13 @@ def main():
     # pprint.pprint(devices, indent=2)
     # pprint.pprint(ts, indent=2)
 
-    # db = MONGO_CLIENT['reporting']
-    #
-    # inventory_collection = db['inventory']
-    # inventory_collection.insert_one(inventory)
-    #
-    # ts_collection = db['timeSeries']
-    # ts_collection.insert_many(ts)
+    db = MONGO_CLIENT['reporting']
+
+    inventory_collection = db['inventory']
+    inventory_collection.insert_one(inventory)
+
+    ts_collection = db['timeSeries']
+    ts_collection.insert_many(ts)
 
 
 if __name__ == '__main__':

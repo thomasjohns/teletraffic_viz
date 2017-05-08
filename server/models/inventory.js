@@ -18,11 +18,10 @@ class Inventory extends Model {
     return Promise.resolve(result)
   }
 
-  static getDeviceMenuTypesAndNames () {
+  static getDeviceMenu () {
     let result = this.findOne(
       {},
-      { device: 1 },
-      { name: 1 }
+      { deviceMenu: 1, _id: 0 }
     )
     return Promise.resolve(result)
   }
