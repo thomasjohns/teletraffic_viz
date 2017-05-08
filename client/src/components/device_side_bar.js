@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import Radium from 'radium'
-import ReactMenuAim from 'react-menu-aim'
+// import ReactMenuAim from 'react-menu-aim'
 
 const style = {
   base: {
@@ -16,9 +16,40 @@ const style = {
 }
 
 class DeviceSideBar extends Component {
+
+  constructor (props) {
+    super(props)
+    this.state = {
+      loadingMenu: true,
+      deviceMenu: null
+    }
+  }
+
+  componentDidMount () {
+    fetch('/api/inventory/menu')
+      .then((response) => {
+        return response.json()
+      }).then((json) => {
+        this.setState({
+          loadingMenu: false,
+          deviceMenu: json['deviceMenu']
+        })
+      })
+  }
+
+  writeMenu () {
+    if (this.state.loadingMenu) {
+      return 'Loading Menu'
+    } else {
+      return this.state.deviceMenu[0]['name']
+    }
+  }
+
   render () {
     return (
-      <div style={style.base}>stuff</div>
+      <div style={style.base}>
+        {this.writeMenu()}
+      </div>
     )
   }
 }
