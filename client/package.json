@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "prop-types": "^15.5.8",
     "radium": "^0.18.2",
     "radium-grid": "^2.0.3",
     "react": "^15.5.4",
