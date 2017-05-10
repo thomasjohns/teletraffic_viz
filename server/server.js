@@ -5,6 +5,8 @@ const apiHome = require('./routes/api_home')
 const inventory = require('./routes/inventory')
 const timeseries = require('./routes/timeseries')
 
+mongoose.Promise = require('bluebird')
+
 mongoose.connect('mongodb://localhost/reporting')
 
 const app = express()
