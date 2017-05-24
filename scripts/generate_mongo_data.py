@@ -9,7 +9,6 @@ import numpy as np
 import pandas as pd
 from pymongo import MongoClient
 
-
 MONGO_CLIENT = MongoClient(connect=False)
 START_YEAR = 2017
 START_MONTH = 4  # April
@@ -33,7 +32,6 @@ DEVICE_MAP = [
     }
 ]
 
-
 def get_devices():
     d = {'device': []}
     for device_entry in DEVICE_MAP:
@@ -44,12 +42,10 @@ def get_devices():
             d['device'].append({'name': name, 'type': device_type})
     return d
 
-
 def _index_of_map_list_containing_type_name(list_of_maps, type_name):
     for i, m in enumerate(list_of_maps):
         if m['name'] == type_name:
             return i
-
 
 def get_device_menu(devices):
     type_names = devices['device']
@@ -68,15 +64,12 @@ def get_device_menu(devices):
             device_menu[type_index]['subMenu'].append(d['name'])
     return device_menu
 
-
-
 def get_datetimes():
     start_dt = datetime.datetime(year=START_YEAR, month=START_MONTH, day=1,
                                  hour=0, second=0, minute=0)
     end_dt = start_dt + datetime.timedelta(days=30*NUM_MONTHS)
     return [d.to_pydatetime() for d in pd.date_range(start=start_dt, end=end_dt,
                                                      freq='H')]
-
 
 def get_uptime_ts(n):
     ''' return list of length n: [1, 1, ..., 0, 1] (1 for up and 0 for down) '''
@@ -95,7 +88,6 @@ def get_uptime_ts(n):
     else:
         uptime = [1 for i in range(n)]
     return uptime
-
 
 def get_cpu_ts(n, uptime, datetimes):
     ''' CPU usage list. Pretty volatile. '''
@@ -120,7 +112,6 @@ def get_mem_ts(n, uptime, datetimes):
             mem_ts.append(random.random() * max_memory / 2)
     return [mem_ts[i] if uptime[i] == 1 else 0 for i in range(n)]
 
-
 def get_disk_ts(n, uptime):
     ''' Disk usage list. Doesn't change rapidly. '''
     max_disk = random.random() * 100
@@ -128,7 +119,6 @@ def get_disk_ts(n, uptime):
     for i in range(1, n):
         disk_ts.append(min(disk_ts[i - 1] + random.random() - .5, 100))
     return [disk_ts[i] if uptime[i] == 1 else 0 for i in range(n)]
-
 
 def get_ts(devices):
     ts = []
@@ -154,18 +144,12 @@ def get_ts(devices):
         })
     return ts
 
-
 def main():
     devices = get_devices()
     inventory = {'metric': ['cpu', 'memory', 'disk_usage', 'uptime'],
                  'device': devices['device'],
                  'deviceMenu': get_device_menu(devices)}
     ts = get_ts(devices)
-
-    # import pprint
-    # pprint.pprint(metrics, indent=2)
-    # pprint.pprint(devices, indent=2)
-    # pprint.pprint(ts, indent=2)
 
     db = MONGO_CLIENT['reporting']
 
@@ -174,7 +158,6 @@ def main():
 
     ts_collection = db['timeSeries']
     ts_collection.insert_many(ts)
-
 
 if __name__ == '__main__':
     main()
