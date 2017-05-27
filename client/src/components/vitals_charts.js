@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import Radium from 'radium'
-import { VictoryArea, VictoryChart, VictoryTheme } from 'victory'
+import { VictoryArea, VictoryContainer } from 'victory'
 
 const style = {
   base: {
@@ -24,8 +24,9 @@ class VitalsCharts extends Component {
     }
   }
 
-  componentDidMount () {
-    fetch(`/api/timeseries/${this.props.device}`)
+  componentWillReceiveProps (nextProps) {
+    console.log(nextProps.device)
+    fetch(`/api/timeseries/${nextProps.device}`)
       .then(response => {
         return response.json()
       }).then(json => {
@@ -39,40 +40,44 @@ class VitalsCharts extends Component {
   createCharts () {
     return (
       <div>
-        <VictoryChart
-          width={100}
-          height={100}
+        <VictoryContainer
+          width={1000}
+          height={1000}
         >
 
           <VictoryArea
             data={this.state.timeseries}
             x={'dt'}
             y={'cpu'}
-            style={{
-              width=20
-              hight=20
-            }}
+            width={400}
+            height={400}
           />
 
           <VictoryArea
             data={this.state.timeseries}
             x={'dt'}
             y={'memory'}
+            width={400}
+            height={400}
           />
 
           <VictoryArea
             data={this.state.timeseries}
             x={'dt'}
             y={'disk'}
+            width={400}
+            height={400}
           />
 
           <VictoryArea
             data={this.state.timeseries}
             x={'dt'}
             y={'uptime'}
+            width={400}
+            height={400}
           />
 
-        </VictoryChart>
+        </VictoryContainer>
       </div>
     )
   }
