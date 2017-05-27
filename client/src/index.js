@@ -14,7 +14,7 @@ class App extends Component {
       <Router>
         <div>
           <Route exact path='/' component={Home} />
-          <Route path='/graph/:device?' component={Graph} />
+          <Route path='/graph/' component={Graph} />
           <Route path='/table' component={Table} />
           <Route path='/excel' component={Excel} />
           <Route path='/upload' component={Upload} />
