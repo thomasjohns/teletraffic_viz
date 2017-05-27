@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Radium from 'radium'
 import { VictoryArea, VictoryChart } from 'victory'
+import Loader from 'halogen/PulseLoader'
 
 const style = {
   base: {
@@ -11,6 +12,11 @@ const style = {
     padding: 0,
     top: '13%',
     left: '20%'
+  },
+  deviceTitle: {
+    marginTop: 0,
+    marginBottom: 0,
+    textAlign: 'center'
   }
 }
 
@@ -25,6 +31,7 @@ class VitalsCharts extends Component {
   }
 
   componentWillReceiveProps (nextProps) {
+    this.setState({dataLoaded: false})
     fetch(`/api/timeseries/${nextProps.device}`)
       .then(response => {
         return response.json()
@@ -37,63 +44,68 @@ class VitalsCharts extends Component {
   }
 
   createCharts () {
+    const chartWidth = 500
+    const chartHeight = 240
     return (
       <svg
-        width={750}
+        width={1040}
         height={500}
       >
         <g>
           <VictoryChart
-            padding={{top: 0, bottom: 10, left: 10, right: 10}}
+            domain={{y: [0, 100]}}
           >
             <VictoryArea
               data={this.state.timeseries}
               x={'dt'}
               y={'cpu'}
-              width={350}
-              height={240}
+              width={chartWidth}
+              height={chartHeight}
             />
           </VictoryChart>
         </g>
 
-        <g transform={'translate(350, 0)'}>
+        <g transform={`translate(${chartWidth + 20}, 0)`}>
           <VictoryChart
-            padding={{top: 0, bottom: 10, left: 10, right: 10}}
+            domain={{y: [0, 100]}}
           >
             <VictoryArea
+              style={{
+                data: {fill: "tomato", opacity: 0.7}
+              }}
               data={this.state.timeseries}
               x={'dt'}
               y={'memory'}
-              width={350}
-              height={240}
+              width={chartWidth}
+              height={chartHeight}
             />
           </VictoryChart>
         </g>
 
-        <g transform={'translate(0, 250)'}>
+        <g transform={`translate(0, ${chartHeight + 20})`}>
           <VictoryChart
-            padding={{top: 0, bottom: 10, left: 10, right: 10}}
+            domain={{y: [0, 100]}}
           >
             <VictoryArea
               data={this.state.timeseries}
               x={'dt'}
               y={'disk'}
-              width={350}
-              height={240}
+              width={chartWidth}
+              height={chartHeight}
             />
           </VictoryChart>
         </g>
 
-        <g transform={'translate(350, 250)'}>
+        <g transform={`translate(${chartWidth + 20}, ${chartHeight + 20})`}>
           <VictoryChart
-            padding={{top: 0, bottom: 10, left: 10, right: 10}}
+            domain={{y: [0, 1]}}
           >
             <VictoryArea
               data={this.state.timeseries}
               x={'dt'}
               y={'uptime'}
-              width={350}
-              height={240}
+              width={chartWidth}
+              height={chartHeight}
             />
           </VictoryChart>
         </g>
@@ -104,9 +116,17 @@ class VitalsCharts extends Component {
   handlePlotArea () {
     if (this.state.dataLoaded === false) {
       if (!this.props.device) {
-        return 'No device selected'
+        return (
+          <h1 style={style.deviceTitle}>
+            No device selected.
+          </h1>
+        )
       } else {
-        return 'Loading data ...'
+        return (
+          <div style={style.deviceTitle}>
+            <Loader color='#26A65B' size='40px' margin='40px' />
+          </div>
+        )
       }
     } else {
       return this.createCharts()
@@ -116,7 +136,7 @@ class VitalsCharts extends Component {
   render () {
     return (
       <div style={style.base}>
-        <h1>{this.props.device}</h1>
+        <h1 style={style.deviceTitle}>{this.props.device}</h1>
         <div>{this.handlePlotArea()}</div>
       </div>
     )
