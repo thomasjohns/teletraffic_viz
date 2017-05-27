@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import Radium from 'radium'
-import { VictoryArea, VictoryContainer } from 'victory'
+import { VictoryArea, VictoryChart } from 'victory'
 
 const style = {
   base: {
@@ -25,7 +25,6 @@ class VitalsCharts extends Component {
   }
 
   componentWillReceiveProps (nextProps) {
-    console.log(nextProps.device)
     fetch(`/api/timeseries/${nextProps.device}`)
       .then(response => {
         return response.json()
@@ -39,46 +38,66 @@ class VitalsCharts extends Component {
 
   createCharts () {
     return (
-      <div>
-        <VictoryContainer
-          width={1000}
-          height={1000}
-        >
+      <svg
+        width={750}
+        height={500}
+      >
+        <g>
+          <VictoryChart
+            padding={{top: 0, bottom: 10, left: 10, right: 10}}
+          >
+            <VictoryArea
+              data={this.state.timeseries}
+              x={'dt'}
+              y={'cpu'}
+              width={350}
+              height={240}
+            />
+          </VictoryChart>
+        </g>
 
-          <VictoryArea
-            data={this.state.timeseries}
-            x={'dt'}
-            y={'cpu'}
-            width={400}
-            height={400}
-          />
+        <g transform={'translate(350, 0)'}>
+          <VictoryChart
+            padding={{top: 0, bottom: 10, left: 10, right: 10}}
+          >
+            <VictoryArea
+              data={this.state.timeseries}
+              x={'dt'}
+              y={'memory'}
+              width={350}
+              height={240}
+            />
+          </VictoryChart>
+        </g>
 
-          <VictoryArea
-            data={this.state.timeseries}
-            x={'dt'}
-            y={'memory'}
-            width={400}
-            height={400}
-          />
+        <g transform={'translate(0, 250)'}>
+          <VictoryChart
+            padding={{top: 0, bottom: 10, left: 10, right: 10}}
+          >
+            <VictoryArea
+              data={this.state.timeseries}
+              x={'dt'}
+              y={'disk'}
+              width={350}
+              height={240}
+            />
+          </VictoryChart>
+        </g>
 
-          <VictoryArea
-            data={this.state.timeseries}
-            x={'dt'}
-            y={'disk'}
-            width={400}
-            height={400}
-          />
-
-          <VictoryArea
-            data={this.state.timeseries}
-            x={'dt'}
-            y={'uptime'}
-            width={400}
-            height={400}
-          />
-
-        </VictoryContainer>
-      </div>
+        <g transform={'translate(350, 250)'}>
+          <VictoryChart
+            padding={{top: 0, bottom: 10, left: 10, right: 10}}
+          >
+            <VictoryArea
+              data={this.state.timeseries}
+              x={'dt'}
+              y={'uptime'}
+              width={350}
+              height={240}
+            />
+          </VictoryChart>
+        </g>
+      </svg>
     )
   }
 
