@@ -25,14 +25,14 @@ const style = {
   },
   navLinks: {
     position: 'absolute',
-    right: '25%',
+    right: '1%',
     top: '30%'
   },
   linkText: {
     fontFamily: 'monospace',
-    fontSize: '25px',
-    paddingLeft: '5%',
-    paddingRight: '5%',
+    fontSize: '20px',
+    marginLeft: '7px',
+    marginRight: '7px',
     color: '#EAE0C8',
     textDecoration: 'none',
     ':hover': {
@@ -45,50 +45,34 @@ const style = {
 }
 
 class Header extends Component {
+
   render () {
+    const navToRoute = {
+      'Home': '',
+      'Graph': 'graph',
+      'Table': 'table',
+      'Excel': 'excel',
+      'Upload': 'upload',
+      'Download': 'download'
+    }
+
     return (
       <h1 className='Header' style={style.base}>
         <div style={style.title}>
           Data Viewer <i>{this.props.screenName}</i>
         </div>
         <div style={style.navLinks}>
-
-          <NavLink
-            style={style.linkText}
-            activeStyle={style.linkTextActive}
-            exact
-            to='/'
-          >Home</NavLink>
-
-          <NavLink
-            style={style.linkText}
-            activeStyle={style.linkTextActive}
-            to='/graph'
-          >Graph</NavLink>
-
-          <NavLink
-            style={style.linkText}
-            activeStyle={style.linkTextActive}
-            to='/table'
-          >Table</NavLink>
-
-          <NavLink
-            style={style.linkText}
-            activeStyle={style.linkTextActive}
-            to='/excel'
-          >Excel</NavLink>
-
-          <NavLink
-            style={style.linkText}
-            activeStyle={style.linkTextActive}
-            to='/upload'
-          >Upload</NavLink>
-
-          <NavLink
-            style={style.linkText}
-            activeStyle={style.linkTextActive}
-            to='/download'
-          >Download</NavLink>
+          {Object.keys(navToRoute).map(page => {
+            return (
+              <NavLink
+                key={page}
+                style={style.linkText}
+                activeStyle={style.linkTextActive}
+                exact
+                to={`/${navToRoute[page]}`}
+              >{page}</NavLink>
+            )
+          })}
         </div>
       </h1>
     )
