@@ -10,22 +10,25 @@ class Graph extends Component {
     this.state = {
       loadingMenu: true,
       deviceMenu: null,
-      device: this.props.match.params.device
+      device: null
     }
+    this.handleDeviceChange = this.handleDeviceChange.bind(this)
   }
 
   componentDidMount () {
-    console.log(this.props)
     fetch('/api/inventory/menu')
       .then((response) => {
         return response.json()
-      }).then((json) => {
+      }).then((jsonResponse) => {
         this.setState({
           loadingMenu: false,
-          deviceMenu: json['deviceMenu'],
-          device: this.props.match.params.device
+          deviceMenu: jsonResponse['deviceMenu']
         })
       })
+  }
+
+  handleDeviceChange (device) {
+    this.setState({device})
   }
 
   render () {
@@ -33,9 +36,10 @@ class Graph extends Component {
       <div className='Graph'>
         <Header screenName={'Graph'} />
         <DeviceSideBar
+          handleDeviceChange={this.handleDeviceChange}
           loadingMenu={this.state.loadingMenu}
           deviceMenu={this.state.deviceMenu}
-          match={this.props.match}
+          url={this.props.match.url}
         />
         <VitalsCharts
           device={this.state.device}
