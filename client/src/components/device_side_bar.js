@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import Radium from 'radium'
 // import ReactMenuAim from 'react-menu-aim'
-import { Link as ReactRouterLink } from 'react-router-dom'
+import { NavLink as ReactRouterNavLink } from 'react-router-dom'
 
-const Link = Radium(ReactRouterLink)
+const NavLink = Radium(ReactRouterNavLink)
 
 const style = {
   base: {
@@ -20,21 +20,25 @@ const style = {
 
 class DeviceSideBar extends Component {
 
-  populateMenu () {
+  constructor (props) {
+    super(props)
+    this.state = {
+      device: null
+    }
+  }
+  writeMenu () {
     if (this.props.loadingMenu) {
       return 'Loading menu ...'
     } else {
-      // return this.props.deviceMenu[0]['name']
-      // return (
-      //   <ul>
-      //     <li>{this.props.deviceMenu[0]['subMenu'][0]}</li>
-      //     <li>{this.props.deviceMenu[0]['subMenu'][1]}</li>
-      //   </ul>
-      // )
-      console.log(this.props)
       const listItems = this.props.deviceMenu[0]['subMenu'].map((device) =>
-        <li key={device}><Link to={`${this.props.match.url}/${device}`}>{device}</Link></li>
-        // <li><Link to={`${this.props.location.pathname}/${device}`}>{device}</Link></li>
+        <li key={device}>
+          <NavLink
+            to={`${this.props.url}/${device}`}
+            onClick={() => this.props.handleDeviceChange(device)}
+          >
+            {device}
+          </NavLink>
+        </li>
       )
       return (
         <ul>{listItems}</ul>
@@ -45,7 +49,7 @@ class DeviceSideBar extends Component {
   render () {
     return (
       <div style={style.base}>
-        {this.populateMenu()}
+        {this.writeMenu()}
       </div>
     )
   }
